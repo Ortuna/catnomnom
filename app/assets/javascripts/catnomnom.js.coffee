@@ -18,6 +18,7 @@ jQuery ->
   
   x = spacing
   y = spacing
+
   get_more_cats()
   $(".cat-container").each (index, element)->
 
@@ -32,30 +33,34 @@ jQuery ->
       y += spacing+picture_width
 
     #resize images
-    $image = $(this).find("img")
-    if($image.length > 0)
-      orig_height = $image.height
-      orig_width  = $image.width
-      new_width   = 200
-      new_height  = 0
-      while new_height < 200 || new_width < 200
-        new_width += 100
-        new_height  = orig_height/orig_width*new_width
-      $image.css("width", new_width)
-      $image.css("height", new_height)
+    resize_image(element)
       
-      setTimeout (-> toggleit(element)), Math.random()*5000
-      return true
+    setTimeout (-> toggleit(element)), Math.random()*5000
+    return true
 get_more_cats = ->
   $.getJSON(cats_url, (data)-> cats = data)
-  
-toggleit = (element)->  
-  if(cats.length > 1)
+
+resize_image = (element)->
+  $image = $(element).find("img")
+  if($image.length > 0)
+    orig_height = $image.height
+    orig_width  = $image.width
+    new_width   = 200
+    new_height  = 0
+    while new_height < 200 || new_width < 200
+      new_width += 100
+      new_height  = orig_height/orig_width*new_width
+    $image.css("width", new_width)
+    $image.css("height", new_height)
+
+toggleit = (element)->
+  if(cats.length > 1 && $(element).css("display") == "none")
     random_index = Math.round(Math.random()*cats.length)
     new_cat = $("<img>")
     new_cat.attr("src", cats[random_index].image)
     $(element).find(".cat").html($(new_cat))
     cats.splice(random_index, 1)
+    resize_image(element)
   else
     get_more_cats()
   $(element).fadeToggle('slow', -> setTimeout (-> toggleit(element)), Math.random()*5000)

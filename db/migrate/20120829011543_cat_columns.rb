@@ -3,6 +3,7 @@ class CatColumns < ActiveRecord::Migration
     add_column :cats, :guid, :string
     add_column :cats, :image, :string
     add_column :cats, :title, :string
+    add_index :cats, :guid
   end
 
   def down

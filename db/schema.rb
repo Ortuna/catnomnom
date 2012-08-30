@@ -20,4 +20,6 @@ ActiveRecord::Schema.define(:version => 20120829011543) do
     t.string   "title"
   end
 
+  add_index "cats", ["guid"], :name => "index_cats_on_guid"
+
 end
