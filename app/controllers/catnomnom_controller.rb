@@ -1,7 +1,6 @@
 class CatnomnomController < ActionController::Base
   def index
-    # cron
-    @cats = Cat.all.shuffle.first(8)
+    @cats = random_cats
   end
 
   def cron
@@ -12,6 +11,19 @@ class CatnomnomController < ActionController::Base
     end
   end
 
+  def cats
+    limit = params[:limit].to_i
+    limit = 8 if limit.nil? or limit == 0
+    
+    @cats = random_cats(limit)
+    render :json => @cats
+  end
+
+  def random_cats(limit = 8)
+    @cats = Cat.all.shuffle.first(limit)
+  end
+
+protected
   def get_cats
     cats = []
     #http://www.reddit.com/r/kittens.json

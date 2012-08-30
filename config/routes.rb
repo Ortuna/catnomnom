@@ -1,5 +1,8 @@
 Catnomnom::Application.routes.draw do
   root :to => 'catnomnom#index'
+  match 'cron' => 'catnomnom#cron'
+  match 'cats/:limit' => 'catnomnom#cats'
+  match 'cats' => 'catnomnom#cats', :as => 'cats'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
