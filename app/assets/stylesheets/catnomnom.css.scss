@@ -1,3 +1,41 @@
 // Place all the styles related to the catnomnom controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body 
+{
+  background-color: #F2F2EC;
+}
+
+.cats
+{
+  .cat-container:nth-child(4n+1)
+  {
+    clear:both;
+  }
+  
+  .cat
+  {
+    width:200px;
+    height:200px;
+    overflow:hidden;
+  }  
+
+  .cat-container
+  {
+    position:absolute;
+    background-color:#fff;
+    padding:10px;
+    margin:15px;
+
+    width:200px;
+    height:200px;
+  }
+
+  .shadow
+  {
+    -moz-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+  }
+}

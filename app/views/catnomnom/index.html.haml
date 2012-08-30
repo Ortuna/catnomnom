@@ -1,0 +1,5 @@
+.cats
+  -@cats.each do |cat|
+    .cat-container{:class => 'shadow'}
+      .cat
+        %img{:src => cat.image,:alt => cat.title, :title => cat.title}
