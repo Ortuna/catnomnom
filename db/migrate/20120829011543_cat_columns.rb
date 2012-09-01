@@ -3,7 +3,7 @@ class CatColumns < ActiveRecord::Migration
     add_column :cats, :guid, :string
     add_column :cats, :image, :string
     add_column :cats, :title, :string
-    add_index :cats, :guid
+    add_index :cats, :guid, :unique => true
   end
 
   def down

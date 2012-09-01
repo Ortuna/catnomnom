@@ -6,6 +6,7 @@ class CatnomnomController < ActionController::Base
   def cron
     cats = get_cats
     cats.each do |cat|
+      next unless Cat.find_by_guid(cat["guid"]).nil?
       c = Cat.new(:image => cat["image"], :title => cat["title"], :guid => cat["guid"])
       c.save
     end
@@ -26,18 +27,23 @@ class CatnomnomController < ActionController::Base
 
 protected
   def get_cats
-    cats = []
-    #http://www.reddit.com/r/kittens.json
-    json_url = "http://www.reddit.com/r/cats.json"
-    entries = JSON.parse(Net::HTTP.get_response(URI.parse(json_url)).body)
-    entries["data"]["children"].each do |entry|
-      cat = {
-              "image" => entry["data"]["url"],
-              "title" => entry["data"]["title"],
-              "guid" => entry["data"]["permalink"]
-            }
-      cats << cat
+    cats     = []
+    cat_urls = []
+    cat_urls << "http://www.reddit.com/r/kittens.json"
+    cat_urls << "http://www.reddit.com/r/cats.json"
+
+    cat_urls.each do |json_url|
+      entries = JSON.parse(Net::HTTP.get_response(URI.parse(json_url)).body)
+      entries["data"]["children"].each do |entry|
+        cat = {
+                "image" => entry["data"]["url"],
+                "title" => entry["data"]["title"],
+                "guid" => entry["data"]["permalink"]
+              }
+        cats << cat
+      end
     end
+
     return cats
   end
 end
