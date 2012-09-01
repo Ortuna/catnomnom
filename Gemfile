@@ -21,5 +21,6 @@ end
 
 group :production do
   gem 'mysql2'
+  gem 'haml'
 end
 gem 'jquery-rails'
