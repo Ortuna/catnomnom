@@ -13,7 +13,7 @@ jQuery ->
   $(window).resize ->
     fix_cat_positions()
   $(".cat-container").each (index, element)->
-    setTimeout (-> toggleit(element)), Math.random()*5000
+    setTimeout (-> toggleit(element)), Math.random()*10000
 fix_cat_positions = ->
   width   = $(document).width()
   height  = $(document).height()
@@ -99,5 +99,5 @@ toggleit = (element)->
       resize_image(element)
   else
     get_more_cats()
-  $(element).fadeToggle('slow', -> setTimeout (-> toggleit(element)), Math.random()*5000)
+  $(element).fadeToggle('slow', -> setTimeout (-> toggleit(element)), Math.random()*10000)
   return true
