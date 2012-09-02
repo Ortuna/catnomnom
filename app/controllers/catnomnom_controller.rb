@@ -31,6 +31,7 @@ protected
     cat_urls = []
     cat_urls << "http://www.reddit.com/r/kittens.json"
     cat_urls << "http://www.reddit.com/r/cats.json"
+    cat_urls << "http://www.reddit.com/r/cats/new/.json"
 
     cat_urls.each do |json_url|
       entries = JSON.parse(Net::HTTP.get_response(URI.parse(json_url)).body)
