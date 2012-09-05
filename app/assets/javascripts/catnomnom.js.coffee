@@ -14,7 +14,11 @@ jQuery ->
   $(window).resize ->
     fix_cat_positions()
   $(".cat-container").each (index, element)->
-    setTimeout (-> toggleit(element)), Math.random()*10000
+    $image = $(element).find("img")
+    console.debug($image)
+    if($image.length > 0)
+      $image.load(-> setTimeout (-> toggleit(element)), 3000+Math.random()*10000)
+    
 fix_cat_positions = ->
   width   = $(document).width()
   height  = $(document).height()
@@ -101,12 +105,13 @@ toggleit = (element)->
       new_cat.attr("src", cats[random_index].image)
       $(element).find(".cat a").html($(new_cat))
       $(element).find(".cat a").attr("href", cats[random_index].image)
+      #wait for the image to load and then call a fade in
+      new_cat.load(-> $(element).fadeIn('fast', -> setTimeout (-> toggleit(element)), 5000+(Math.random()*10000)))
       cats.splice(random_index, 1)
       resize_image(element)
   else
     get_more_cats()
-  if($(element).css("display") == "none")
-    $(element).fadeIn('fast', -> setTimeout (-> toggleit(element)), 5000+(Math.random()*10000))
-  else
+  #Set a fadeout for this image since it is displayed
+  if($(element).css("display") != "none")
     $(element).fadeOut('fast',-> setTimeout (-> toggleit(element)), (Math.random()*5000))
   return true
