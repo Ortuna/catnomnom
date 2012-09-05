@@ -6,6 +6,7 @@ width  = 0
 height = 0
 cats_url = "" #URL for JSON data
 cats = [] # Array of all the cat we have 
+lock = false
 
 jQuery ->
   cats_url = $(".cats").data("url")
@@ -49,9 +50,13 @@ fix_cat_positions = ->
 #go and get more cats from
 #the cats AJAX URL
 get_more_cats = ->
-  if cats.length > 0
+  if cats.length > 0 || lock
     return
-  $.getJSON(cats_url, (data)-> cats = data)
+  lock = true
+  $.getJSON(cats_url, (data)-> 
+    cats = data
+    lock = false
+    )
 
 
 #Given an element(mainly the cat div)
@@ -89,6 +94,7 @@ resize_image = (element)->
 #AJAX URL 
 toggleit = (element)->
   if(cats.length > 0 && $(element).css("display") == "none")
+    #replace with random cat while the element is not visible
     random_index = Math.round(Math.random()*cats.length)
     if(typeof cats[random_index] == "object")
       new_cat = $("<img>")
@@ -99,5 +105,5 @@ toggleit = (element)->
       resize_image(element)
   else
     get_more_cats()
-  $(element).fadeToggle('slow', -> setTimeout (-> toggleit(element)), Math.random()*10000)
+  $(element).fadeToggle('slow', -> setTimeout (-> toggleit(element)), 5000+(Math.random()*10000))
   return true
