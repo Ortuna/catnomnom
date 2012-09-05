@@ -22,7 +22,7 @@ class CatnomnomController < ActionController::Base
   end
 
   def random_cats(limit = 8)
-    @cats = Cat.all.shuffle.first(limit)
+    @cats = Cat.order("RAND()").limit(limit).shuffle
   end
 
 protected
