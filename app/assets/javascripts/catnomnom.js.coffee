@@ -105,5 +105,8 @@ toggleit = (element)->
       resize_image(element)
   else
     get_more_cats()
-  $(element).fadeToggle('slow', -> setTimeout (-> toggleit(element)), 5000+(Math.random()*10000))
+  if($(element).css("display") == "none")
+    $(element).fadeIn('fast', -> setTimeout (-> toggleit(element)), 5000+(Math.random()*10000))
+  else
+    $(element).fadeOut('fast',-> setTimeout (-> toggleit(element)), (Math.random()*5000))
   return true
