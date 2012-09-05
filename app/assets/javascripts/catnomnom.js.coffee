@@ -15,7 +15,6 @@ jQuery ->
     fix_cat_positions()
   $(".cat-container").each (index, element)->
     $image = $(element).find("img")
-    console.debug($image)
     if($image.length > 0)
       $image.load(-> setTimeout (-> toggleit(element)), 3000+Math.random()*10000)
     
