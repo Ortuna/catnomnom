@@ -17,27 +17,28 @@ body
 
 .cats
 {
+  margin:0 auto;
+  overflow:hidden;
+  top:10px;
+  
   .cat-container:nth-child(4n+1)
   {
-    clear:both;
+    // clear:both;
   }
   
   .cat
   {
-    width:200px;
-    height:200px;
-    overflow:hidden;
+    // width:200px;
+    // height:200px;
+    // overflow:hidden;
   }  
 
   .cat-container
   {
-    position:absolute;
     background-color:#fff;
     padding:10px;
     margin:15px;
-
-    width:200px;
-    height:200px;
+    float:left
   }
 
   .shadow
