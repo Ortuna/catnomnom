@@ -13,10 +13,7 @@ end
 
 
 group :development,:test do
-  gem 'capybara'
   gem 'rspec-rails'
-  gem 'watchr'
-  gem 'webrat'
 end
 
 group :production do
