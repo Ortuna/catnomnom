@@ -4,7 +4,7 @@ def create_sample_cat
   sample_cat = Cat.new
   sample_cat.guid  = "12345zxcvy"
   sample_cat.title = "This is a test title"
-  sample_cat.image = "http://www.google.com/test.png"
+  sample_cat.image = "http://imgur.com/bM2XPl.jpg"
   sample_cat
 end
 
