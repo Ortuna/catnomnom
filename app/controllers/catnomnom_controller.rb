@@ -1,6 +1,6 @@
 class CatnomnomController < ActionController::Base
   def index
-    @cats = random_cats
+    @cats = random_cats(16)
   end
 
   def cron
@@ -15,13 +15,13 @@ class CatnomnomController < ActionController::Base
 
   def cats
     limit = params[:limit].to_i
-    limit = 8 if limit.nil? or limit == 0
+    limit = 16 if limit.nil? or limit == 0
     
     @cats = random_cats(limit)
     render :json => @cats
   end
 
-  def random_cats(limit = 8)
+  def random_cats(limit = 16)
     @cats = Cat.order("RAND()").limit(limit).shuffle
   end
 

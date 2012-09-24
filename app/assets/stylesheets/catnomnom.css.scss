@@ -8,37 +8,32 @@ body
   font: 400 17px/1.6 'Gudea', Verdana, Helvetica, sans-serif;
 }
 
-#title
-{
-  font:  400 42px 'Rancho', Georgia, serif;
-  width: 200px;
-  margin: 0 auto;
-}
-
 .cats
 {
   margin:0 auto;
   overflow:hidden;
-  top:10px;
-  
-  .cat-container:nth-child(4n+1)
-  {
-    // clear:both;
-  }
-  
+  top:-20px;
+   
   .cat
   {
-    // width:200px;
-    // height:200px;
-    // overflow:hidden;
-  }  
+    width:250px;
+    img {
+      width:100%;
+    }
+    p {
+      line-height:1.2em;
+      font-size:14px;
+      margin:0 auto;
+    }    
+  }
 
   .cat-container
   {
     background-color:#fff;
     padding:10px;
     margin:15px;
-    float:left
+    float:left;
+    overflow:hidden;
   }
 
   .shadow
