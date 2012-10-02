@@ -1,51 +1,71 @@
 $container = null;
-catsURL = "";
-speed = 1;
+catsURL    = "";
+maxCats    = Math.round(($(window).height()/250) * ($(window).width()/250));
+timer      = 5; //in secs
 
 $(document).ready(function(){
-
   $container     = $('.cats');
   catsURL        = $(".cats").data("url");
   $container.imagesLoaded( function(){
     $container.masonry({
       itemSelector : '.cat-container',
       isFitWidth: true,
-      isAnimated: true,
-      isResizable:true,
-      columnWidth: 300,
-      animationOptions: {
-        duration: 300,
-        easing: 'linear',
-        queue: false
-      }      
+      isAnimated: false,
+      isResizable: true,
+      columnWidth: 100
     });
   });
-
   interval = setInterval(function(){
     getMoreCats();
-  },5000);
+  },timer*1000);
+  startTimer();
 });
+
+function startTimer(){
+  $('.timer').pietimer({
+    seconds: timer,
+    color: 'rgba(0, 0, 0, 0.8)',
+    height: 16,
+    width: 16
+  });
+  $('.timer').pietimer('start');
+}
 
 function getMoreCats(){
   //Get new cats and parse each JSON cat
-  $.getJSON(catsURL,function(cats){
-    $container.find("#cats-main").html("");
-    for(var i = 0; i < cats.length;i++){
-      var cat = $("<div class='cat-container shadow masonry-brick'></div>");
-      cat.append("<div class='cat'><a href='"  
-        + cats[i].image 
-        + " target='_blank'><img src='" 
-        + cats[i].image 
-        + " alt='" 
-        + cats[i].title 
-        +"'></a><p>" 
-        + cats[i].title 
-        + "</p></div>"
-      );
-      $container.find("#cats-main").append(cat);
-    }
-    $container.imagesLoaded( function(){
-      $(this).masonry('reload');
-    });
+
+  //fade out the container
+  var $catsMain = $container.children("#cats-main");
+
+  //recalculate max cat count
+  maxCats    = ($(window).height()/250) * ($(window).width()/250);
+
+  $catsMain.fadeOut(function(){
+    data = {limit: maxCats}
+    $.getJSON(catsURL, data, function(cats){
+      $catsMain.html("");
+      for(var i = 0; i < cats.length;i++){
+        var cat = $("<div class='cat-container shadow masonry-brick'></div>");
+        cat.append("<div class='cat'><a href='"  
+          + cats[i].image 
+          + " target='_blank'><img src='" 
+          + cats[i].image 
+          + " alt='" 
+          + cats[i].title 
+          +"'></a><p>" 
+          + cats[i].title 
+          + "</p></div>"
+        );
+        $catsMain.append(cat);
+      }
+      $container.imagesLoaded( function(){
+        $catsMain.fadeIn();
+        $(this).masonry('reload',function(){
+            startTimer();
+        });
+        
+      });
+    });    
   });
+
 }

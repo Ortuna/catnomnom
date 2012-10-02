@@ -8,12 +8,16 @@ body
   font: 400 17px/1.6 'Gudea', Verdana, Helvetica, sans-serif;
 }
 
+.timer{
+  position: absolute;
+  left: 5px;
+  top:5px;
+}
+
 .cats
 {
   margin:0 auto;
   overflow:hidden;
-  top:-20px;
-   
   .cat
   {
     width:250px;
@@ -24,16 +28,18 @@ body
       line-height:1.2em;
       font-size:14px;
       margin:0 auto;
-    }    
+    }
   }
-
-  .cat-container
-  {
-    background-color:#fff;
-    padding:10px;
-    margin:15px;
-    float:left;
-    overflow:hidden;
+  #cats-main {
+    overflow: hidden;
+    .cat-container
+    {
+      background-color:#fff;
+      padding:10px;
+      margin:15px;
+      float:left;
+      overflow:hidden;
+    } 
   }
 
   .shadow
