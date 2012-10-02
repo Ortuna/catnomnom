@@ -15,10 +15,10 @@ $(document).ready(function(){
       columnWidth: 100
     });
   });
-  interval = setInterval(function(){
+  startTimer();
+  setTimeout(function(){
     getMoreCats();
   },timer*1000);
-  startTimer();
 });
 
 function startTimer(){
@@ -58,11 +58,14 @@ function getMoreCats(){
         );
         $catsMain.append(cat);
       }
-      $container.imagesLoaded( function(){
-        $catsMain.fadeIn();
-        $(this).masonry('reload',function(){
-            startTimer();
+      $container.imagesLoaded( function(){        
+        $catsMain.fadeIn(function(){
+          setTimeout(function(){
+            getMoreCats();
+          },timer*1000);          
+          startTimer();
         });
+        $(this).masonry('reload');
         
       });
     });    
