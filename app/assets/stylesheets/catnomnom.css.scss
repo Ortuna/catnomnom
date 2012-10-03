@@ -11,8 +11,20 @@ body
 .timer{
   position: absolute;
   left: 5px;
-  top:5px;
+  top: 5px;
 }
+
+.paws {
+  background-image: asset_url("paws.png", image);
+  background-size:100%;
+  background-repeat:no-repeat;
+  position: absolute;
+  left: 5px;
+  top: 30px;
+  width:16px;
+  height:18px;
+}
+
 
 .cats
 {

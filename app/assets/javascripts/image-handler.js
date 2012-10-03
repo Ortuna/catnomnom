@@ -1,7 +1,8 @@
 $container = null;
 catsURL    = "";
 maxCats    = Math.round(($(window).height()/250) * ($(window).width()/250));
-timer      = 5; //in secs
+timer      = 10; //in secs
+timeout    = null;
 
 $(document).ready(function(){
   $container     = $('.cats');
@@ -14,11 +15,25 @@ $(document).ready(function(){
       isResizable: true,
       columnWidth: 100
     });
+
+    $paws = $('.paws');
+    $paws.fadeTo(100, .50);
+    $paws.hover(function(){
+      $paws.fadeTo(100, 1);
+    });
+    $paws.mouseout(function(){
+      if(timeout != null)
+        $paws.fadeTo(100, .50);
+    });
+
+    $paws.click(function(){
+      if(timeout == null)
+        startTimer();
+      else
+        stopTimer();
+    });
   });
   startTimer();
-  setTimeout(function(){
-    getMoreCats();
-  },timer*1000);
 });
 
 function startTimer(){
@@ -29,6 +44,16 @@ function startTimer(){
     width: 16
   });
   $('.timer').pietimer('start');
+
+  timeout = setTimeout(function(){
+    getMoreCats();
+  },timer*1000);  
+}
+
+function stopTimer(){
+  clearTimeout(timeout);
+  timeout = null;
+  $('.timer').pietimer('pause');  
 }
 
 function getMoreCats(){
@@ -59,10 +84,7 @@ function getMoreCats(){
         $catsMain.append(cat);
       }
       $container.imagesLoaded( function(){        
-        $catsMain.fadeIn(function(){
-          setTimeout(function(){
-            getMoreCats();
-          },timer*1000);          
+        $catsMain.fadeIn(function(){       
           startTimer();
         });
         $(this).masonry('reload');
