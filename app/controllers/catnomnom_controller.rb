@@ -1,50 +1,13 @@
 class CatnomnomController < ActionController::Base
-  def index
-    @cats = random_cats(16)
-  end
+  def index;end
 
   def cron
-    cats = get_cats
-    cats.each do |cat|
-      next unless Cat.find_by_guid(cat["guid"]).nil?
-      c = Cat.new(:image => cat["image"], :title => cat["title"], :guid => cat["guid"])
-      c.save
-    end
+    Cat.update_database_with_new_cats
     render :json => 1
   end
 
   def cats
-    limit = params[:limit].to_i
-    limit = 16 if limit.nil? or limit == 0
-    
-    @cats = random_cats(limit)
-    render :json => @cats
-  end
-
-  def random_cats(limit = 16)
-    @cats = Cat.order("RAND()").limit(limit).shuffle
-  end
-
-protected
-  def get_cats
-    cats     = []
-    cat_urls = []
-    cat_urls << "http://www.reddit.com/r/kittens.json"
-    cat_urls << "http://www.reddit.com/r/cats.json"
-    cat_urls << "http://www.reddit.com/r/cats/new/.json"
-
-    cat_urls.each do |json_url|
-      entries = JSON.parse(Net::HTTP.get_response(URI.parse(json_url)).body)
-      entries["data"]["children"].each do |entry|
-        cat = {
-                "image" => entry["data"]["url"],
-                "title" => entry["data"]["title"],
-                "guid" => entry["data"]["permalink"]
-              }
-        cats << cat
-      end
-    end
-
-    return cats
+    limit = params[:limit]? params[:limit].to_i : 16
+    render :json => Cat.random_cats(limit)
   end
 end

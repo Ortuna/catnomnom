@@ -1,10 +1,1 @@
-.timer
-.paws
-.cats{:data => {'url' => cats_url}}
-  #cats-main
-    -@cats.each do |cat|
-      .cat-container{:class => 'shadow'}
-        .cat
-          %a{:href => cat.image, :target => '_blank'}
-            %img{:src => cat.image,:alt => cat.title, :title => cat.title}
-          %p=cat.title
+.cats
