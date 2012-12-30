@@ -37,8 +37,8 @@ class Cats extends Backbone.Collection
     _.bindAll @
   fetch: ->
     @setCatLimit()
-    $(@list.el).addClass("invisible")
     super.success (response) =>
+      $(@list.el).addClass("invisible")
       @trigger 'fetched'
   setCatLimit: ->
     limit = Math.floor($(document).width() / 250) * 3
