@@ -24,21 +24,25 @@ class CatList extends Backbone.View
     @doAppend cat
 
   doAppend: (model)->
-    $('ul', @el).append "<li> <a target=\"_blank\" href=\"#{model.get 'image' }\"><img src=\"#{model.get 'image' }\"></a></li>"
+    $('ul', @el).append "<li>
+                          <a target=\"_blank\" href=\"#{model.get 'image' }\">
+                            <img src=\"#{model.get 'image' }\">
+                          </a>
+                        </li>"
 
 class Cats extends Backbone.Collection
   @model: Cat
   url: "/cats"
   initialize: ->
     _.bindAll @
-    @setCatLimit()
   fetch: ->
+    @setCatLimit()
     $(@list.el).addClass("invisible")
     super.success (response) =>
       @trigger 'fetched'
   setCatLimit: ->
-    limit = Math.floor($(document).width() / 250) * 2
-    url   = "/cats/#{limit}"
+    limit = Math.floor($(document).width() / 250) * 3
+    @url   = "/cats/#{limit}"
 
 class Cat extends Backbone.Model
   defaults:
