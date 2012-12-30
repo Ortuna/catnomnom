@@ -5,27 +5,40 @@ class CatList extends Backbone.View
     @collection = new Cats
     @collection.bind 'add', @appendCat
     @collection.bind 'fetched', @render
+    @collection.list = @
 
   render: ->
     $(@el).html ''
     $(@el).append '<ul></ul>'
     for cat in @collection.models
       @appendCat cat
+    $(@el).imagesLoaded =>
+      if $(@el).data 'masonry'
+        $(@el).masonry 'reload'
+      else
+        $(@el).masonry
+          itemSelector: 'li'
+      $(@el).removeClass('invisible')
     @
   appendCat: (cat)->
     @doAppend cat
+
   doAppend: (model)->
-    console.debug("Appending")
-    $('ul', @el).append "<li>#{model.get 'image' }</li>"
+    $('ul', @el).append "<li> <a target=\"_blank\" href=\"#{model.get 'image' }\"><img src=\"#{model.get 'image' }\"></a></li>"
 
 class Cats extends Backbone.Collection
   @model: Cat
-  url: '/cats'
+  url: "/cats"
   initialize: ->
     _.bindAll @
+    @setCatLimit()
   fetch: ->
+    $(@list.el).addClass("invisible")
     super.success (response) =>
       @trigger 'fetched'
+  setCatLimit: ->
+    limit = Math.floor($(document).width() / 250) * 2
+    url   = "/cats/#{limit}"
 
 class Cat extends Backbone.Model
   defaults:
@@ -36,5 +49,8 @@ class Cat extends Backbone.Model
 
 $ ->
   window.cat_list = new CatList
-
+  window.cat_list.collection.fetch()
+  setInterval ( ->
+    window.cat_list.collection.fetch()    
+  ), 10000
 

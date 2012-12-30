@@ -11,9 +11,9 @@ class Cat < ActiveRecord::Base
   end
 
   def fix_imgr_url
-    return if image.nil?
+    return false if image.nil?
     matches = image.match(/.*imgur\.com\/(\w*)/)
-    return false if matches.nil? or matches[1] == "a"
+    return false if matches.nil? or matches[1] == "a" #is not imgur or its an album
     self.image = "http://imgur.com/" + matches[1] + "l" + ".jpg"
   end
 
@@ -35,7 +35,7 @@ class Cat < ActiveRecord::Base
     cat_urls = []
     cat_urls << "http://www.reddit.com/r/kittens.json"
     cat_urls << "http://www.reddit.com/r/cats.json"
-    cat_urls << "http://www.reddit.com/r/cats/new/.json"
+    cat_urls << "http://www.reddit.com/r/cats/new.json"
 
     cat_urls.each do |json_url|
       entries = JSON.parse(Net::HTTP.get_response(URI.parse(json_url)).body)
@@ -43,7 +43,7 @@ class Cat < ActiveRecord::Base
         cat = {
                 "image" => entry["data"]["url"],
                 "title" => entry["data"]["title"],
-                "guid" => entry["data"]["permalink"]
+                "guid"  => entry["data"]["permalink"]
               }
         cats << cat
       end
